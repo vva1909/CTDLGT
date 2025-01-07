@@ -3,37 +3,35 @@ package w1;
 
 public class LongestIncreasingSubsequence {
     
-    public static int lengthOfLIS(int[] nums) {
-        // nếu mảng đầu vào không có giá trị thì LIS = 0 
-        if (nums == null || nums.length == 0) {
-            return 0;
+    public static int lis(int[] arr) {
+        int n = arr.length;
+        int[] lis = new int[n];
+        int max = 0;
+
+        for (int i = 0; i < n; i++) {
+            lis[i] = 1;
         }
 
-        // Mảng dp để lưu độ dài của LIS kết thúc tại mỗi chỉ số
-        int[] dp = new int[nums.length];
-        // Khởi tạo mọi phần tử trong dp bằng 1, vì mỗi số đơn lẻ là một chuỗi con tăng dài 1
-        for (int i = 0; i < nums.length; i++) {
-            dp[i] = 1;
-        }
-
-        int maxLength = 1;
-        for (int i = 1; i < nums.length; i++) {
+        for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    // Nếu phần tử hiện tại lớn hơn phần tử trước đó, cập nhật dp[i]
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                if (arr[i] > arr[j] && lis[i] < lis[j] + 1) {
+                    lis[i] = lis[j] + 1;
                 }
             }
-            // Cập nhật độ dài LIS lớn nhất
-            maxLength = Math.max(maxLength, dp[i]);
         }
 
-        return maxLength;
+        for (int i = 0; i < n; i++) {
+            if (max < lis[i]) {
+                max = lis[i];
+            }
+        }
+
+        return max;
     }
 
     public static void main(String[] args) {
-        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
-        System.out.println("Độ dài của chuỗi con tăng dài nhất là: " + lengthOfLIS(nums));
+        int[] arr = {10, 22, 9, 33, 21, 50, 41, 60, 80};
+        System.out.println("Length of LIS is: " + lis(arr));
     }
 }
 
