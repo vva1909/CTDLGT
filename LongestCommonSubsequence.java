@@ -2,14 +2,13 @@ import java.util.Scanner;
 
 public class LongestCommonSubsequence {
 
-    public static Result findLCS(String X, String Y) {
+    public static String LCS(String X, String Y) {
         int m = X.length();
         int n = Y.length();
 
         // Tạo mảng trạng thái dp
         int[][] dp = new int[m + 1][n + 1];
 
-        // Điền bảng dp theo công thức truy hồi
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
                 if (X.charAt(i - 1) == Y.charAt(j - 1)) { // Nếu ký tự cuối trùng
@@ -28,9 +27,9 @@ public class LongestCommonSubsequence {
                 lcs.append(X.charAt(i - 1)); // Thêm ký tự vào kết quả
                 i--;
                 j--;
-            } else if (dp[i - 1][j] > dp[i][j - 1]) { // Di chuyển lên trên
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
                 i--;
-            } else { // Di chuyển sang trái
+            } else {
                 j--;
             }
         }
@@ -39,18 +38,7 @@ public class LongestCommonSubsequence {
         lcs.reverse();
 
         // Trả về kết quả
-        return new Result(dp[m][n], lcs.toString());
-    }
-
-    // Lớp kết quả để lưu độ dài LCS và chuỗi LCS
-    static class Result {
-        int length;
-        String lcs;
-
-        Result(int length, String lcs) {
-            this.length = length;
-            this.lcs = lcs;
-        }
+        return lcs.toString();
     }
 
     public static void main(String[] args) {
@@ -63,8 +51,8 @@ public class LongestCommonSubsequence {
         String Y = sc.nextLine();
 
         // Tìm LCS và in kết quả
-        Result result = findLCS(X, Y);
-        System.out.println("đo dai LCS: " + result.length);
-        System.out.println("LCS: " + result.lcs);
+        String result = LCS(X, Y);
+        System.out.println("đo dai LCS: " + result.length());
+        System.out.println("LCS: " + result);
     }
 }
