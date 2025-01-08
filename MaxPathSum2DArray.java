@@ -34,10 +34,14 @@ public class MaxPathSum2DArray {
     
     public static void calculateMaxPathSum() {
         // Tính toán đường đi lớn nhất
-        for (int i = 1; i <= m; i++) {
+        for (int i = 1 ; i <= m ; i++){
             dp[i][1] = a[i][1];
-            for (int j = 1; j <= n; j++) {
+            for (int j = 1 ; j <= n ; j++){
                 dp[1][j] = a[1][j];
+            }
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 2; j <= n; j++) {
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) + a[i][j];
             }
         }
