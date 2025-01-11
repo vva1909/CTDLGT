@@ -9,6 +9,14 @@ public class LongestCommonSubsequence {
         // Tạo mảng trạng thái dp
         int[][] dp = new int[m + 1][n + 1];
 
+        // Khởi tạo các giá trị cơ sở của bảng dp
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = 0;
+        }
+        for (int j = 0; j <= n; j++) {
+            dp[0][j] = 0;
+        }
+
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
                 if (X.charAt(i - 1) == Y.charAt(j - 1)) { // Nếu ký tự cuối trùng
