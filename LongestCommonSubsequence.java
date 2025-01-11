@@ -55,4 +55,4 @@ public class LongestCommonSubsequence {
         System.out.println("đo dai LCS: " + result.length());
         System.out.println("LCS: " + result);
     }
-}
+
