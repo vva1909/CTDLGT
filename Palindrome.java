@@ -1,10 +1,13 @@
+package palindrome;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package palindrome;
-import java.util.Scanner;
-import java.util.Scanner;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 public class Palindrome {
 
@@ -64,18 +67,82 @@ public class Palindrome {
         }
     }
 
+    private static JScrollPane createTablePanel(boolean[][] dp_mp, String s, int n) {
+        // Tạo tiêu đề cột
+        String[] columnNames = new String[n + 1]; // Cột đầu tiên là "a[i]"
+        columnNames[0] = "S";
+        for (int i = 0; i < n; i++) {
+            columnNames[i + 1] = String.valueOf(s.charAt(i)); // Tên cột từ 0 -> s
+        }
+
+        // Tạo dữ liệu bảng
+        String[][] data = new String[n][n + 1];
+        for (int i = 0; i < n; i++) {
+            data[i][0] = String.valueOf(s.charAt(i)); // Tên hàng là các giá trị của mảng a[i]
+            for (int j = 0; j < n; j++) {
+                data[i][j + 1] = String.valueOf(dp_mp[i][j]);
+            }
+        }
+
+        // Tạo JTable
+        JTable table = new JTable(new DefaultTableModel(data, columnNames)){
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (column > 0) {
+                    // Bỏ qua cột đầu tiên (cột "a[i]")
+                    if (dp_mp[row][column - 1]) {
+                        c.setBackground(Color.green);
+                    } else {
+                        c.setBackground(Color.red);
+                    }
+                } else {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
+            }
+        };
+
+        table.setEnabled(false); // Chỉ hiển thị, không chỉnh sửa
+        table.setRowHeight(50); // Chiều cao hàng
+        table.getTableHeader().setReorderingAllowed(false); // Không thay đổi thứ tự cột
+
+        // Căn giữa nội dung trong ô
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < columnNames.length; i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        // Đặt JTable vào JScrollPane
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Ma trận F"));
+        return scrollPane;
+    }
+
     // Hàm main
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+       /* Scanner scanner = new Scanner(System.in);
         String S = scanner.nextLine();
-        scanner.close();
+        scanner.close()*/;
+        String S = "syuduyc";
         int n = S.length();
         boolean[][] F = checkPalindrome(S, n);
         printMatrix(F, n);
         int maxLength = findMaxLength(F, n);
         System.out.println("Max Palindrome Length: " + maxLength);
-    }
-}
-maxLength);
+
+        // Tạo giao diện
+        JFrame frame = new JFrame("Mô phỏng Palindrome");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        // Thêm bảng vào giao diện
+        frame.add(createTablePanel(F, S, n), BorderLayout.CENTER);
+
+        // Hiển thị giao diện
+        frame.setSize(600, 435);
+        frame.setLocationRelativeTo(null); // Căn giữa màn hình
+        frame.setVisible(true);
     }
 }
