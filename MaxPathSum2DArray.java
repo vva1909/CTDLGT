@@ -1,5 +1,3 @@
-package mang2chieu;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -15,13 +13,13 @@ public class MaxPathSum2DArray {
     public static void calculateMaxPathSum() {
         // Tính toán đường đi lớn nhất
         for (int i = 1; i <= m; i++) {
-            dp[i][1] = a[i][1];
+            dp[i][0] = 0;
         }
         for (int j = 1; j <= n; j++) {
-            dp[1][j] = a[1][j];
+            dp[0][j] = 0;
         }
-        for (int i = 2; i <= m; i++) {
-            for (int j = 2; j <= n; j++) {
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) + a[i][j];
             }
         }
@@ -101,7 +99,7 @@ public class MaxPathSum2DArray {
         frame.add(createTablePanel(dp, m, n, "Ma trận DP"));
 
         // Hiển thị giao diện
-        frame.setSize(800, 400);
+        frame.setSize(800, 220);
         frame.setVisible(true);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
